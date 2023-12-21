@@ -102,6 +102,8 @@ in
 
   bytecode-viewer_git = final.callPackage ../pkgs/bytecode-viewer-git { };
 
+  cosmic-applets_git = callOverride ../pkgs/cosmic-applets-git { };
+
   # Waiting for nixpkgs#272823 needed for mesa_git
   directx-headers_1_611 = callOverride ../pkgs/mesa-git/directx-headers-pin.nix { };
   directx-headers32_1_611 =
