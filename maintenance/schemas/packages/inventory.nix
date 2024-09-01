@@ -58,7 +58,7 @@ in
             [
               "pkgsx86_64_v2"
               "pkgsx86_64_v3"
-              "pkgsx86_64_v3-core"
+              "pkgsx86_64_v3-store"
               "pkgsx86_64_v4"
               "pkgsAMD64Microarchs"
               "libdrm32_git"

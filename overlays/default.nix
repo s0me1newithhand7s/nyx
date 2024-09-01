@@ -248,11 +248,13 @@ in
 
   openvr_git = callOverride ../pkgs/openvr-git { };
 
-  pkgsx86_64_v2 = makeMicroarchPkgs "x86_64" "x86-64-v2";
-  pkgsx86_64_v3 = makeMicroarchPkgs "x86_64" "x86-64-v3";
-  pkgsx86_64_v4 = makeMicroarchPkgs "x86_64" "x86-64-v4";
+  # TODO: Warn users of this alias
+  pkgsx86_64_v2 = final.pkgsAMD64Microarchs.x86-64-v2;
+  pkgsx86_64_v3 = final.pkgsAMD64Microarchs.x86-64-v3;
+  pkgsx86_64_v4 = final.pkgsAMD64Microarchs.x86-64-v4;
 
-  pkgsx86_64_v3-core = dropAttrsUpdateScript (import ../shared/core-tier.nix final.pkgsx86_64_v3);
+  pkgsx86_64_v3-store = nyxUtils.getStore
+    (with final.pkgsAMD64Microarchs.x86-64-v3; [ firefox-unwrapped firefox ]);
 
   pkgsAMD64Microarchs =
     builtins.mapAttrs

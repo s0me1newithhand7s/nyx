@@ -45,6 +45,21 @@ rec {
     in
     builtins.filter (x: lib.strings.hasInfix (builtins.unsafeDiscardStringContext x.drvPath) allDeps) packages;
 
+  # NOTE: Don't use in your system's configuration, this helps in the repo's infra.
+  # Creates a super-context with all the derivations involved in building a list of packages
+  getStore = packages:
+    let
+      allDeps = drv:
+        let
+            thisDeps = builtins.getContext (builtins.toJSON drv.drvAttrs);
+
+            inDeps = builtins.mapAttrs (_key: out: getStore [out]) thisDeps;
+        in
+        #(builtins.attrNames thisDeps) ++ (builtins.attrValues inDeps);
+        (builtins.attrValues inDeps);
+    in
+    builtins.concatLists (builtins.map allDeps packages);
+
   # Helps when converting flakes to src.
   gitToVersion = src: "unstable-${src.lastModifiedDate}-${src.shortRev}";
 
