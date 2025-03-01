@@ -7,23 +7,27 @@
 , wlroots_0_18
 , wayland
 , pixman
+, ninja
+, meson
 , libxcb
 , libdrm
+, scenefx
+, cmake
 , fetchFromGitHub
 , stdenv
 , lib
 ,
 }:
 
-stdenv.mkDerivation rec {
-  pname = "owl-wlr";
-  version = "unstable-20241209-37efc0c0d";
+stdenv.mkDerivation {
+  pname = "mwc";
+  version = "unstable-20250228-9b9d425";
 
   src = fetchFromGitHub {
     owner = "dqrk0jeste";
-    repo = "owl";
-    rev = "37efc0c0d7ebc39b7911bcaec9da1c7cd9a7b6c7";
-    hash = "sha256-ZkKwzsi0Cc6Mq6N3jnYajHMS7cdrSccWU+CuP2j86KI=";
+    repo = "mwc";
+    rev = "9b9d4256be440b511e6c37165e01a6c2686e606f";
+    hash = "sha256-rTI28cEQPulpku/F9NeuY9KZza89G+S1r/W3hQr3I14";
     fetchSubmodules = true;
   };
 
@@ -31,6 +35,9 @@ stdenv.mkDerivation rec {
     wayland-scanner
     makeWrapper
     pkg-config
+    meson
+    cmake
+    ninja
   ];
 
   outputs = [
@@ -46,6 +53,7 @@ stdenv.mkDerivation rec {
     libxcb
     libdrm
     pixman
+    scenefx
   ];
 
   makeFlags = [
@@ -62,18 +70,19 @@ stdenv.mkDerivation rec {
   ];
 
   postInstall = ''
-    wrapProgram $out/bin/owl --set OWL_DEFAULT_CONFIG_PATH "$out/share/default.conf"
+    wrapProgram $out/bin/mwc --set MWC_DEFAULT_CONFIG_PATH "$out/share/default.conf"
   '';
 
   buildPhase = ''
-    make
+    meson setup build
+    ninja -C build
   '';
 
   installPhase = ''
     mkdir -p $out/bin
     mkdir -p $out/share
-    cp -r build/owl $out/bin/
-    cp -r build/owl-ipc $out/bin/
+    cp -r build/mwc $out/bin/
+    cp -r build/mwc-ipc $out/bin/
     cp -r default.conf $out/share/
   '';
   # HUUUUUUUUUGE thanks to https://github.com/dqrk0jeste ^^^
@@ -81,8 +90,8 @@ stdenv.mkDerivation rec {
   __structuredAttrs = true;
 
   meta = {
-    description = "tiling wayland compositor based on wlroots.";
-    homepage = "https://github.com/dqrk0jeste/owl";
+    description = "tiling wayland compositor based on wlroots and scenefx.";
+    homepage = "https://github.com/dqrk0jeste/mwc";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ s0me1newithhand7s ];
     platforms = with lib; [ "x86_64-linux" ];

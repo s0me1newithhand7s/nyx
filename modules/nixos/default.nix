@@ -10,7 +10,7 @@ let
     nyx-overlay = import ../common/nyx-overlay.nix fromFlakes;
     nyx-registry = import ../common/nyx-registry.nix fromFlakes;
     zfs-impermanence-on-shutdown = import ./zfs-impermanence-on-shutdown.nix;
-    owl-wlr = import ./owl-wlr.nix;
+    mwc = import ./mwc.nix;
   };
 
   default = { ... }: {

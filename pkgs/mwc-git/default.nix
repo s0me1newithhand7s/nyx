@@ -1,14 +1,14 @@
 { final, prev, gitOverride, ... }:
 
 gitOverride {
-  nyxKey = "owl-wlr_git";
+  nyxKey = "mwc_git";
   prev = final.callPackage ./package.nix { };
 
-  versionNyxPath = "pkgs/owl-git/version.json";
+  versionNyxPath = "pkgs/mwc-git/version.json";
   fetcher = "fetchFromGitHub";
   fetcherData = {
     owner = "dqrk0jeste";
-    repo = "owl";
+    repo = "mwc";
     fetchSubmodules = true;
   };
 }

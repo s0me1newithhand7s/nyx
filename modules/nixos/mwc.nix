@@ -1,16 +1,16 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.chaotic.owl-wlr;
+  cfg = config.chaotic.mwc;
 in
 {
-  options.chaotic.owl-wlr = {
+  options.chaotic.mwc = {
     enable = lib.mkEnableOption ''
       Owl - tiling wayland compositor based on wlroots. 
-      Enabling this option will add owl to your system.
+      Enabling this option will add mwc to your system.
     '';
 
-    package = lib.mkPackageOption pkgs "owl-wlr_git" {
+    package = lib.mkPackageOption pkgs "mwc_git" {
       nullable = true;
       extraDescription = ''
         This option can provide different version of Owl compositor.
